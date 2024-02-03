@@ -3,11 +3,12 @@
 int main()
 {
 	vector<Person> person;
-	int length;
+	int number;
 
-	length = makePerson(person);
-	cout << "The number of record is " << length << endl;
+	makePerson(person);
+	cout << "The number of record is " << person.size() << endl;
 	printPerson(person);
-	sortPerson(person);
-	printPerson(person);
+	writeFile(person);
+	number = 50;
+	getRecord(number);
 }
