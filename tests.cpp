@@ -10,8 +10,9 @@ TEST_CASE("Ex1 ", "[example]")
 	vector<Person> person;
 	int length;
 
-	length = makePerson(person);
-	REQUIRE(length == 100);
+	makePerson(person);
+
+	REQUIRE(person.size() == 100);
 	printPerson(person);
 	cout << "--------------------------------------------------\n";
 }
@@ -20,13 +21,41 @@ TEST_CASE("Ex2 ", "[example]")
 {
 	vector<Person> person;
 	int length;
+	fstream ifs;
+	Person p;
+	unsigned long offset;
+	Person *ptr;
 
-	length = makePerson(person);
-	sortPerson(person);
-	printPerson(person);
-	REQUIRE(person[0].no == 33);
-	REQUIRE(person[99].no == 70);
-	REQUIRE(person[50].no == 25);
-	REQUIRE(person[75].no == 54);
+	makePerson(person);
+	writeFile(person);
+	/****************************************************/
+	ptr = getRecord(20);
+	REQUIRE(ptr->no == 20);
+
+	/****************************************************/
+	ifs.open("Person.bin", ios::binary | ios::in);
+	REQUIRE(!(ifs) == false);
+
+	ifs.read((char *)&p, sizeof(Person));
+	printOnePerson(p);
+	REQUIRE(p.no == 1);
+	/****************************************************/
+	offset = sizeof(Person) * (50 - 1);
+	ifs.seekg(offset, ios::beg);
+	cout << sizeof(Person) << endl;
+	cout << ifs.tellg() << endl;
+	ifs.read((char *)&p, sizeof(Person));
+	printOnePerson(p);
+	REQUIRE(p.no == 50);
+	/****************************************************/
+	offset = sizeof(Person) * (27 - 1);
+	ifs.seekg(offset, ios::beg);
+	// cout << ifs.tellg() << endl;
+	ifs.read((char *)&p, sizeof(Person));
+	cout << p.email << "Email " << endl;
+	printOnePerson(p);
+	REQUIRE(p.name.first == "Louis");
 	cout << "--------------------------------------------------\n";
+	/****************************************************/
+	ifs.close();
 }
