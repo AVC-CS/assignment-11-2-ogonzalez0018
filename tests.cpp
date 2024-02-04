@@ -48,7 +48,7 @@ TEST_CASE("Ex2 ", "[example]")
 	printOnePerson(p);
 	REQUIRE(p.no == 50);
 	/****************************************************/
-	offset = sizeof(Person) * (27 - 1);
+	offset = 0;
 	ifs.seekg(offset, ios::beg);
 	// cout << ifs.tellg() << endl;
 	ifs.read((char *)&p, sizeof(Person));
